@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">cgeoSOA</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps_settings">MapsSettingsActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_gpstest">GPSTest</string>
 </resources>
