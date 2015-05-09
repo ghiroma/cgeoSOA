@@ -32,4 +32,23 @@
         android:layout_marginLeft="23dp"
         android:layout_marginStart="23dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/txtDistance"
+        android:layout_below="@+id/txtLatitud"
+        android:layout_alignLeft="@+id/txtLatitud"
+        android:layout_alignStart="@+id/txtLatitud"
+        android:layout_marginTop="56dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Map Activity"
+        android:onClick="StartMapActivity"
+        android:id="@+id/btnMapActivity"
+        android:layout_alignTop="@+id/txtDistance"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

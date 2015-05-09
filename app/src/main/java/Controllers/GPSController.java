@@ -1,12 +1,11 @@
 package Controllers;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
-import android.os.Bundle;
+
+import com.google.android.gms.maps.GoogleMap;
 
 import Constants.GPSConfigurationConstants;
 import Handlers.GPSHandler;
@@ -29,9 +28,14 @@ public class GPSController {
         }
     }
 
-    public void RegisterContinuousLocationUpdate()
+    public void RegisterContinuousLocationUpdate(GoogleMap map)
     {
-        GPSHandler listener = new GPSHandler();
+        Location hardcodeReference = new Location("Point Reference");
+        Location firstLocation = new Location("Point 1");
+        firstLocation.setLatitude(Double.parseDouble("-34.7448911"));
+        firstLocation.setLongitude(Double.parseDouble("-58.7002165"));
+        ////TODO Get distance and location from configuration
+        GPSHandler listener = new GPSHandler(firstLocation, Float.parseFloat("100"), map);
         this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPSConfigurationConstants.LOCATION_REFRESHTIME, GPSConfigurationConstants.LOCATION_MINDISTANCE, listener);
         this.locationListener = listener;
     }

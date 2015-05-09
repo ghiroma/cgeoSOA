@@ -1,13 +1,24 @@
 package unlam.cgeosoa;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
+import android.location.LocationProvider;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import java.util.Calendar;
 
 import Controllers.GPSController;
+import Services.LocationService;
 
 
 public class GPSTest extends ActionBarActivity {
@@ -16,16 +27,12 @@ public class GPSTest extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gpstest);
-        EditText txtLatitud = (EditText)findViewById((R.id.txtLatitud));
-        EditText txtLongitud = (EditText)findViewById(R.id.txtLongitud);
-        GPSController gpsController = new GPSController(getApplicationContext());
-        Location currentLocation = gpsController.GetCurrentLocation();
-        Double latitude = currentLocation.getLatitude();
-        Double longitude = currentLocation.getLongitude();
-        txtLatitud.setText(String.valueOf(latitude));
-        txtLongitud.setText(String.valueOf(longitude));
 
-        gpsController.RegisterContinuousLocationUpdate();
+        Calendar calendar = Calendar.getInstance();
+        Intent intent = new Intent(this, LocationService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0 , intent, 0);
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 5000, pendingIntent);
     }
 
 
@@ -49,5 +56,11 @@ public class GPSTest extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void StartMapActivity(View view)
+    {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
     }
 }

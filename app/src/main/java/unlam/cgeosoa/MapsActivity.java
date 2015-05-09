@@ -1,12 +1,23 @@
 package unlam.cgeosoa;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import Controllers.GPSController;
+import Controllers.GoogleMapController;
 
 public class MapsActivity extends FragmentActivity {
 
@@ -17,12 +28,21 @@ public class MapsActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
+        GPSController gpsController = new GPSController(getApplicationContext());
+        gpsController.RegisterContinuousLocationUpdate(this.mMap);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+
+        GPSController controller = new GPSController(getApplicationContext());
+        Location location = controller.GetCurrentLocation();
+        LatLng googleLocation = new LatLng(location.getLatitude(),location.getLongitude());
+        CameraPosition position = new CameraPosition.Builder().target(googleLocation).zoom(16).build();
+        CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
+        mMap.animateCamera(update);
     }
 
     /**
